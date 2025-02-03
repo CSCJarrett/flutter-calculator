@@ -41,6 +41,17 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         } catch (e) {
           _result = ' Error';
         }
+      } else if (value == '^2') {
+        // Extract the first number in the expression
+        final match = RegExp(r'\d+$').firstMatch(_expression);
+        if (match != null) {
+          final number = int.parse(match.group(0)!);
+          final squared = number * number;
+          _expression =
+              _expression.replaceAll(RegExp(r'\d+$'), squared.toString());
+        }
+      } else if (value == '%') {
+        _expression += '%';
       } else {
         _expression += value;
       }
@@ -97,6 +108,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                 '0',
                 '=',
                 '+',
+                '^2',
+                '%',
               ].map((value) {
                 return GridTile(
                   child: ElevatedButton(
